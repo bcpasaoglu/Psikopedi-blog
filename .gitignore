@@ -33,5 +33,6 @@ build/
 *.egg-info/
 
 # Still being developed, so ignore if it exists
-admin.html
+admin_panel.html
 admin.css
+login.html

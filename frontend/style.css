@@ -146,8 +146,8 @@ h1, h2, h3 {
     pointer-events: none;
 }
 
-/* --- NAVBAR --- */
-nav {
+/* --- NAVBAR (site pages only) --- */
+.site-nav {
     position: fixed;
     top: 0;
     width: 100%;
@@ -162,7 +162,7 @@ nav {
     transform: translateY(0); /* visible by default; JS can animate if needed */
 }
 
-.logo {
+.site-nav .logo {
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--primary-color);
@@ -173,11 +173,11 @@ nav {
     justify-self: start;
 }
 
-.nav-links {
+.site-nav .nav-links {
     justify-self: center;
 }
 
-.nav-links a {
+.site-nav .nav-links a {
     margin: 0 1.6rem;
     text-decoration: none;
     color: var(--primary-color);
@@ -185,7 +185,7 @@ nav {
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.site-nav .nav-links a:hover {
     color: var(--comic-red);
 }
 

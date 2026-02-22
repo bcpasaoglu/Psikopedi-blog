@@ -6,7 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile menu toggle (add data-menu-btn to the button)
   const menuBtn = document.querySelector('[data-menu-btn]');
-  const nav = document.querySelector('nav');
+  const nav = document.querySelector('.site-nav');
   if (menuBtn && nav) menuBtn.addEventListener('click', () => nav.classList.toggle('open'));
 
   // Theme switcher (add data-theme-toggle to the button)
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }});
 
     // Navbar, featured section and footer animations
-    tl.from('nav', { y: -10, opacity: 0, duration: 0.6 }, '-=0.2');
+    tl.from('.site-nav', { y: -10, opacity: 0, duration: 0.6 }, '-=0.2');
     tl.from('.featured-section', { y: 20, opacity: 0, duration: 0.6 }, '-=0.3');
     tl.from('.blog-list > *', { y: 20, opacity: 0, stagger: 0.08, duration: 0.45 }, '-=0.45');
     tl.from('footer', { y: 10, opacity: 0, duration: 0.5 }, '-=0.4');
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loader) {
       if (loader.parentNode) loader.parentNode.removeChild(loader);
     }
-    const navEl = document.querySelector('nav');
+    const navEl = document.querySelector('.site-nav');
     if (navEl) {
       navEl.style.transform = 'none';
       navEl.style.opacity = '1';
