@@ -11,7 +11,9 @@ A Turkish psychology blog with a FastAPI backend and a hand-drawn, comic-style f
 
 ![Filtering by category, searching and opening an article](docs/screenshots/demo-desktop.gif)
 
-<!-- "Why I built this" goes here once the author has written it. -->
+## Why I built this
+
+I took Psikopedi on as volunteer freelance work, mostly to get real experience. The goal was to build a blog from scratch and then improve its security and usability one step at a time. The git history follows that path: first a site that works, then an admin API that fails closed, then a real database, tests and CI, then login rate limiting, security headers and a load test, and finally a redesign that is pleasant to read on a phone.
 
 ## What it does
 
