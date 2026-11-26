@@ -1,3 +1,4 @@
+import hmac
 import os
 import re
 from datetime import date
@@ -73,24 +74,27 @@ def get_article(id_or_slug: str):
 
 # ── Admin endpoints (simple in-memory CRUD with header token) ─────────────
 
-ADMIN_TOKEN = os.getenv("ADMIN_TOKEN", "")
-
-
 def require_admin(x_admin_token: Optional[str] = Header(default=None, alias="X-Admin-Token")):
-    if ADMIN_TOKEN:
-        if not x_admin_token or x_admin_token != ADMIN_TOKEN:
-            raise HTTPException(status_code=401, detail="Unauthorized")
-    # if no ADMIN_TOKEN is configured, allow all (dev mode)
+    """Reject admin requests unless a valid token is configured and supplied.
+
+    Fails closed: if ADMIN_TOKEN is not set, admin endpoints are disabled
+    instead of being open to everyone.
+    """
+    admin_token = os.getenv("ADMIN_TOKEN", "")
+    if not admin_token:
+        raise HTTPException(status_code=503, detail="Admin API is disabled: ADMIN_TOKEN is not configured")
+    if not x_admin_token or not hmac.compare_digest(x_admin_token, admin_token):
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
 
 def slugify(text: str) -> str:
-    text = text.strip().lower()
-    # replace Turkish characters roughly and non-alnum with dashes
+    # Map Turkish characters before lowercasing: "İ".lower() yields "i" plus a
+    # combining dot, which would otherwise become a stray dash in the slug.
     mapping = str.maketrans({
         "ç": "c", "ğ": "g", "ı": "i", "ö": "o", "ş": "s", "ü": "u",
         "Ç": "c", "Ğ": "g", "İ": "i", "Ö": "o", "Ş": "s", "Ü": "u",
     })
-    text = text.translate(mapping)
+    text = text.strip().translate(mapping).lower()
     text = re.sub(r"[^a-z0-9]+", "-", text)
     text = re.sub(r"-+", "-", text).strip("-")
     return text or "makale"
