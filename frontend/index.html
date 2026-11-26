@@ -3,85 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Psikoloji ve yaşam üzerine derinlemesine yazılar. Zihinsel sağlık, ilişkiler ve kişisel gelişim.">
-    <title>Psikoloji & Yaşam | PsikopediBlog</title>
+    <meta name="description" content="Psikoloji ve yaşam üzerine samimi, kısa yazılar: kaygı, ilişkiler, uyku, farkındalık ve kişisel gelişim.">
+    <title>Psikopedi | Psikoloji & Yaşam Blogu</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
-
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a class="skip-link" href="#yazilar">İçeriğe geç</a>
 
-    <!-- Loading Screen -->
-    <div class="loader-wrapper">
-        <div class="loader-text">PsikopediBlog</div>
-        <div class="loader-line"></div>
-        <div class="comic-effects">
-            <div class="speech-bubble">POW!</div>
-            <div class="sound-effect">WHAM!</div>
-            <div class="motion-lines"></div>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="brand" aria-label="Psikopedi ana sayfa">
+                <span class="brand-mark" data-brand-mark></span>
+                <span>
+                    <span class="brand-name">Psiko<span>pedi</span></span>
+                    <span class="brand-tagline">psikoloji / ilişkiler / gelişim</span>
+                </span>
+            </a>
+            <nav class="site-nav" aria-label="Ana menü">
+                <a href="#yazilar">Yazılar</a>
+                <a href="#kategoriler">Kategoriler</a>
+                <a href="#hakkinda">Hakkında</a>
+                <a href="#yazilar" class="btn btn-primary">Okumaya başla</a>
+            </nav>
         </div>
-    </div>
+    </header>
 
-    <!-- Navbar -->
-    <nav class="site-nav">
-        <a href="/" class="logo btn">PsikopediBlog</a>
-        <div class="nav-links">
-            <a href="/" class="btn">Ana Sayfa</a>
-            <a href="#articles" class="btn">Makaleler</a>
-            <a href="#contact" class="btn">İletişim</a>
-        </div>
-        
-    </nav>
-
-    <!-- Main Blog Content -->
-    <main class="main-content">
-
-        <!-- Featured Post: populated from backend -->
-        <section class="featured-section" id="featured-section">
-            <!-- Backend will render featured post here -->
+    <main>
+        <section class="categories" id="kategoriler" aria-labelledby="kategoriler-baslik">
+            <div class="container">
+                <h2 id="kategoriler-baslik" class="sr-only">Kategoriler</h2>
+                <ul class="category-grid" data-categories></ul>
+            </div>
         </section>
 
-        <!-- Blog List: populated from backend -->
-        <section class="blog-list" id="articles">
-            <!-- Backend will render blog cards here -->
+        <section class="hero" aria-labelledby="hero-baslik">
+            <div class="container">
+                <div>
+                    <span class="hero-eyebrow">Zihin için küçük molalar</span>
+                    <h1 id="hero-baslik">Merhaba <span class="wave" aria-hidden="true">👋</span><br>Zihnini anlamanın <mark>en samimi</mark> hali</h1>
+                    <p class="lead">Kaygıdan uykuya, ilişkilerden alışkanlıklara: bilimsel temelli, birkaç dakikada okunan ve hemen uygulanabilen yazılar.</p>
+                    <div class="hero-actions">
+                        <a href="#yazilar" class="btn btn-primary">Yazıları keşfet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                        <span class="or">ya da</span>
+                        <a href="#" class="btn" data-random-article>Rastgele bir yazı</a>
+                    </div>
+                </div>
+                <div class="hero-art" data-hero-art></div>
+            </div>
         </section>
 
-    </main>
+        <section class="section" id="yazilar" aria-labelledby="yazilar-baslik">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2 id="yazilar-baslik">Yeni yazılar <span class="badge" data-total aria-label="toplam yazı sayısı"></span></h2>
+                        <p class="active-filter" data-active-filter hidden>
+                            <span data-active-filter-label></span>
+                            <button type="button" class="link-button" data-clear-filter>Filtreyi kaldır</button>
+                        </p>
+                    </div>
+                    <form class="search" role="search" data-search>
+                        <label for="arama" class="sr-only">Yazılarda ara</label>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+                        <input id="arama" type="search" name="q" placeholder="Yazılarda ara…" maxlength="100" autocomplete="off">
+                    </form>
+                </div>
+                <ul class="article-grid" data-articles aria-live="polite">
+                    <li class="article-card skeleton" aria-hidden="true"></li>
+                    <li class="article-card skeleton" aria-hidden="true"></li>
+                    <li class="article-card skeleton" aria-hidden="true"></li>
+                </ul>
+            </div>
+        </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="contact-container">
-            <h2>İletişime Geçin</h2>
-            <p>Sorularınız veya önerileriniz için aşağıdaki kanallardan bana ulaşabilirsiniz.</p>
-            <div class="contact-info">
-                <div class="info-box">
-                    <i class="fas fa-envelope"></i>
-                    <p>info@psikopediblog.com</p>
+        <section class="section" id="hakkinda" aria-labelledby="hakkinda-baslik">
+            <div class="container">
+                <div class="about">
+                    <div class="art" data-about-art></div>
+                    <div>
+                        <h2 id="hakkinda-baslik">Psikopedi nedir?</h2>
+                        <p>Psikolojiyi günlük hayata taşıyan bağımsız bir blog. Yazılar bilgi amaçlıdır; profesyonel destek yerine geçmez. Zor bir dönemden geçiyorsan bir uzmana ulaşmaktan çekinme.</p>
+                    </div>
+                    <a class="btn" href="mailto:info@psikopediblog.com">Bize yaz</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
-        <div class="footer-content">
-            <p>&copy; 2026 PsikopediBlog. Tüm hakları saklıdır.</p>
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            </div>
+        <div class="container">
+            <p>&copy; 2026 Psikopedi. Tüm hakları saklıdır.</p>
+            <p>Çizimler bu blog için hazırlanmıştır.</p>
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script type="module" src="home.js"></script>
 </body>
 </html>

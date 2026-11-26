@@ -36,3 +36,5 @@ build/
 admin_panel.html
 admin.css
 login.html
+.pytest_cache/
+__pycache__/
