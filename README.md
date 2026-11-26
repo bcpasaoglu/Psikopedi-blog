@@ -7,6 +7,14 @@ A Turkish-language psychology blog: a **FastAPI + SQLAlchemy** REST API with JWT
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
+## Screenshots
+
+| Article list | Article page |
+|---|---|
+| ![Home page with article cards](docs/screenshots/home.png) | ![Single article view](docs/screenshots/article.png) |
+
+![Swagger UI with public, auth and JWT-protected admin endpoints](docs/screenshots/api-docs.png)
+
 ## Features
 
 - **REST API** for articles with search (`?q=`), pagination (`?limit=&offset=`) and lookup by id or slug
