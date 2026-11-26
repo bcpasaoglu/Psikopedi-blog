@@ -7,8 +7,12 @@ from .models import Article
 from .utils import slugify
 
 
-def list_articles(db: Session, q: str | None, limit: int, offset: int) -> tuple[list[Article], int]:
+def list_articles(
+    db: Session, q: str | None, limit: int, offset: int, category: str | None = None
+) -> tuple[list[Article], int]:
     stmt = select(Article)
+    if category:
+        stmt = stmt.where(Article.category == category)
     if q:
         pattern = f"%{q}%"
         stmt = stmt.where(
@@ -17,6 +21,11 @@ def list_articles(db: Session, q: str | None, limit: int, offset: int) -> tuple[
     total = db.scalar(select(func.count()).select_from(stmt.subquery())) or 0
     rows = db.scalars(stmt.order_by(Article.date.desc(), Article.id.desc()).limit(limit).offset(offset)).all()
     return list(rows), total
+
+
+def category_counts(db: Session) -> dict[str, int]:
+    rows = db.execute(select(Article.category, func.count()).group_by(Article.category))
+    return {slug: count for slug, count in rows}
 
 
 def get_by_id_or_slug(db: Session, id_or_slug: str) -> Article | None:

@@ -5,6 +5,7 @@ import datetime as dt
 from sqlalchemy import Date, DateTime, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
+from .categories import DEFAULT_CATEGORY
 from .database import Base
 
 
@@ -23,5 +24,8 @@ class Article(Base):
     summary: Mapped[str] = mapped_column(String(500), default="")
     content: Mapped[str] = mapped_column(Text, default="")
     image_url: Mapped[str] = mapped_column(String(500), default="")
+    category: Mapped[str] = mapped_column(
+        String(50), default=DEFAULT_CATEGORY, server_default=DEFAULT_CATEGORY, index=True
+    )
     created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)
     updated_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), default=_utcnow, onupdate=_utcnow)

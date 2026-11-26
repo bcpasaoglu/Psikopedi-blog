@@ -7,7 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .config import BASE_DIR, Settings, get_settings
-from .database import Base, make_engine, make_session_factory, session_dependency
+from .database import Base, add_missing_columns, make_engine, make_session_factory, session_dependency
+from .headers import SecurityHeadersMiddleware
+from .ratelimit import FailedLoginLimiter
 from .routers import admin, articles, auth
 from .seed import seed_if_empty
 
@@ -22,6 +24,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # Tables are created on startup; a migration tool (Alembic) would replace
         # this once the schema starts changing.
         Base.metadata.create_all(engine)
+        add_missing_columns(engine)
         if settings.seed_sample_data:
             with session_factory() as db:
                 seed_if_empty(db)
@@ -30,6 +33,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(title="Psikopedi Blog API", version="2.0", lifespan=lifespan)
     app.state.get_db = session_dependency(session_factory)
+    app.state.login_limiter = FailedLoginLimiter(settings.login_max_attempts, settings.login_window_seconds)
     app.dependency_overrides[get_settings] = lambda: settings
 
     app.add_middleware(
@@ -39,6 +43,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_headers=["Authorization", "Content-Type"],
         expose_headers=["X-Total-Count"],
     )
+    app.add_middleware(SecurityHeadersMiddleware, hsts=settings.enable_hsts)
 
     @app.get("/api/health", tags=["health"])
     def health():

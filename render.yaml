@@ -12,5 +12,11 @@ services:
         sync: false # set in the Render dashboard
       - key: JWT_SECRET
         generateValue: true
+      # Render's proxy sets X-Forwarded-For; trust it so the login rate limit
+      # sees real client IPs. The app is only reachable through that proxy.
+      - key: FORWARDED_ALLOW_IPS
+        value: "*"
+      - key: ENABLE_HSTS
+        value: "true"
       - key: SEED_SAMPLE_DATA
         value: "true"

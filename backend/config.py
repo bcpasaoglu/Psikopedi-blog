@@ -21,6 +21,13 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 60
 
+    # Failed logins allowed per client IP within the window before 429.
+    login_max_attempts: int = 5
+    login_window_seconds: int = 300
+
+    # Send Strict-Transport-Security; enable only when served over HTTPS.
+    enable_hsts: bool = False
+
     seed_sample_data: bool = True
 
     @property

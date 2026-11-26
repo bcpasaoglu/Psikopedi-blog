@@ -61,3 +61,21 @@ def test_rejects_token_for_other_subject(client, settings):
 def test_rejects_unsigned_token(client):
     token = jwt.encode({"sub": ADMIN_USER, "exp": 9999999999}, key=None, algorithm="none")
     assert client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"}).status_code == 401
+
+
+def test_login_is_rate_limited_after_failures(tmp_path):
+    with TestClient(create_app(make_settings(tmp_path, login_max_attempts=3))) as c:
+        for _ in range(3):
+            assert c.post("/api/auth/login", json={"username": ADMIN_USER, "password": "x"}).status_code == 401
+        blocked = c.post("/api/auth/login", json={"username": ADMIN_USER, "password": ADMIN_PASSWORD})
+        assert blocked.status_code == 429
+        assert int(blocked.headers["Retry-After"]) > 0
+
+
+def test_successful_login_resets_failures(tmp_path):
+    with TestClient(create_app(make_settings(tmp_path, login_max_attempts=3))) as c:
+        for _ in range(2):
+            c.post("/api/auth/login", json={"username": ADMIN_USER, "password": "x"})
+        assert c.post("/api/auth/login", json={"username": ADMIN_USER, "password": ADMIN_PASSWORD}).status_code == 200
+        for _ in range(2):
+            assert c.post("/api/auth/login", json={"username": ADMIN_USER, "password": "x"}).status_code == 401
