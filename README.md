@@ -11,6 +11,10 @@ A Turkish-language psychology blog: a **FastAPI + SQLAlchemy** REST API with JWT
 
 ![Home page: category cards with live counts, hero illustration and calls to action](docs/screenshots/home.png)
 
+| Desktop demo | Mobile demo |
+|---|---|
+| ![Filtering by category, searching and opening an article](docs/screenshots/demo-desktop.gif) | ![Swiping the category strip and scrolling on a phone](docs/screenshots/demo-mobile.gif) |
+
 | Article page | Mobile |
 |---|---|
 | ![Single article view](docs/screenshots/article.png) | ![Home page on a phone](docs/screenshots/mobile.png) |
