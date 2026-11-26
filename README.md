@@ -7,6 +7,7 @@ Built with a comic book-inspired UI, smooth GSAP animations, and a FastAPI backe
 ![Status](https://img.shields.io/badge/Status-Work%20in%20Progress-orange)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.129-009688?logo=fastapi&logoColor=white)
+[![CI](https://github.com/bcpasaoglu/Psikopedi-blog/actions/workflows/ci.yml/badge.svg)](https://github.com/bcpasaoglu/Psikopedi-blog/actions/workflows/ci.yml)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 > **Note:** This project is under active development. Features and API may change.
@@ -32,6 +33,29 @@ frontend/
 |--------|----------|-------------|
 | GET | `/api/articles` | List all articles |
 | GET | `/api/articles/{id_or_slug}` | Single article by numeric ID or slug |
+| POST | `/api/admin/articles` | Create an article (admin) |
+| PUT | `/api/admin/articles/{id}` | Update an article (admin) |
+| DELETE | `/api/admin/articles/{id}` | Delete an article (admin) |
+
+Admin endpoints require the `X-Admin-Token` header to match the `ADMIN_TOKEN` environment variable. If `ADMIN_TOKEN` is not set, the admin API is disabled and returns `503` (fail closed).
+
+## Running Locally
+
+```bash
+pip install -r requirements.txt
+echo "ADMIN_TOKEN=change-me" > .env
+uvicorn backend.main:app --reload
+# open http://localhost:8000
+```
+
+## Tests
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
+
+Tests run on every push and pull request via GitHub Actions.
 
 ## Tech Stack
 
@@ -42,6 +66,8 @@ frontend/
 ## Roadmap
 
 - [ ] SQLite database integration
+- [x] Admin endpoints protected by a token (fail closed)
+- [x] Automated tests and CI
 - [ ] Admin authentication (JWT)
 - [ ] Article CRUD operations
 - [ ] Categories and tags
