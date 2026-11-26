@@ -105,14 +105,22 @@
                 if (titleEl) titleEl.textContent = title || 'Untitled Article';
                 if (metaEl) metaEl.textContent = (author || '') + (date ? ' • ' + date : '');
                 if (imageEl) {
-                    imageEl.innerHTML = image ? ('<img src="' + image + '" alt="Article image">') : '';
+                    // Build the element instead of concatenating HTML, so a crafted URL cannot inject attributes.
+                    imageEl.replaceChildren();
+                    if (image) {
+                        const img = document.createElement('img');
+                        img.src = image;
+                        img.alt = 'Article image';
+                        imageEl.appendChild(img);
+                    }
                 }
 
                 if (!bodyEl) return;
                 if (window.DOMPurify) {
                     bodyEl.innerHTML = DOMPurify.sanitize(content);
                 } else {
-                    bodyEl.innerHTML = content;
+                    // Sanitizer failed to load: show plain text rather than unsanitized HTML.
+                    bodyEl.textContent = content;
                 }
             } catch (err) {
                 if (loadingEl) loadingEl.textContent = 'An error occurred while loading the article.';
